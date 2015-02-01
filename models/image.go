@@ -3,6 +3,7 @@ package models
 import (
 	"github.com/pbyrne/bucket/util"
 	"os"
+	"path/filepath"
 )
 
 type Image struct {
@@ -15,6 +16,10 @@ func (i Image) Size() int64 {
 	stat, err := file.Stat()
 	util.PanicIf(err)
 	return stat.Size()
+}
+
+func (i Image) BaseName() string {
+	return filepath.Base(i.Path)
 }
 
 func ImagesFromPaths(ps []string) []Image {

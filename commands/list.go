@@ -7,6 +7,6 @@ import (
 
 func List(bucket models.Bucket) {
 	for _, image := range bucket.Images() {
-		fmt.Println(image.Path, image.Size(), "bytes")
+		fmt.Println(image.BaseName(), image.Size(), "bytes")
 	}
 }

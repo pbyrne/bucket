@@ -6,11 +6,11 @@ import (
 )
 
 type Image struct {
-	path string
+	Path string
 }
 
 func (i Image) Size() int64 {
-	file, err := os.Open(i.path)
+	file, err := os.Open(i.Path)
 	util.PanicIf(err)
 	stat, err := file.Stat()
 	util.PanicIf(err)
@@ -21,7 +21,7 @@ func ImagesFromPaths(ps []string) []Image {
 	var result []Image
 
 	for _, path := range ps {
-		result = append(result, Image{path: path})
+		result = append(result, Image{Path: path})
 	}
 
 	return result

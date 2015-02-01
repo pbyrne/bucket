@@ -1,4 +1,4 @@
-package image
+package models
 
 import (
 	"github.com/pbyrne/bucket/util"

@@ -8,5 +8,5 @@ import (
 func main() {
 	bucket := models.NewBucket()
 
-	commands.List(*bucket)
+	commands.List(bucket)
 }

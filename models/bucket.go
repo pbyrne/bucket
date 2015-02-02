@@ -9,8 +9,8 @@ type Bucket struct {
 	root string
 }
 
-func NewBucket() *Bucket {
-	return &Bucket{root: "/Users/pbyrne/Dropbox/Photos/Bucket"}
+func NewBucket() Bucket {
+	return Bucket{root: "/Users/pbyrne/Dropbox/Photos/Bucket"}
 }
 
 func (b Bucket) Images() []Image {

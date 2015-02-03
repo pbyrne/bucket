@@ -13,8 +13,7 @@ func Build(bucket models.Bucket) {
 	util.PanicIf(err)
 	index, err := os.Create(dir + "/index.html")
 	util.PanicIf(err)
+	defer os.RemoveAll(dir)
 
 	index.WriteString("<h1>Hello, world!</h1>")
-
-	fmt.Println(dir)
 }

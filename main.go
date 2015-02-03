@@ -15,6 +15,8 @@ func main() {
 		commands.List(bucket)
 	case "version":
 		commands.Version()
+	case "build":
+		commands.Build(bucket)
 	default:
 		commands.Usage()
 	}

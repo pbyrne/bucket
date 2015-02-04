@@ -12,23 +12,47 @@ import (
 )
 
 func Build(bucket models.Bucket) {
+	builder := NewBucketBuilder(bucket)
+
+	builder.Perform()
+	fmt.Println(builder)
+}
+
+type BucketBuilder struct {
+	bucket models.Bucket
+	dir    string
+}
+
+func NewBucketBuilder(bucket models.Bucket) BucketBuilder {
 	dir, err := ioutil.TempDir("", "bucket")
 	util.PanicIf(err)
+	return BucketBuilder{bucket: bucket, dir: dir}
+}
 
-	indexPath := path.Join(dir, "/index.html")
-	index, err := os.Create(indexPath)
+func (bb BucketBuilder) Perform() {
+	defer bb.cleanUp()
+
+	bb.writeIndex()
+	bb.copyFiles()
+}
+
+func (bb BucketBuilder) writeIndex() {
+	index, err := os.Create(path.Join(bb.dir, "/index.html"))
 	util.PanicIf(err)
-	defer os.RemoveAll(dir)
 	template, err := template.ParseFiles("templates/index.html")
-	template.Execute(index, bucket)
+	template.Execute(index, bb.bucket)
+}
 
-	for _, image := range bucket.Images() {
-		dest, err := os.Create(path.Join(dir, image.BaseName()))
+func (bb BucketBuilder) copyFiles() {
+	for _, image := range bb.bucket.Images() {
+		dest, err := os.Create(path.Join(bb.dir, image.BaseName()))
 		util.PanicIf(err)
 		src, err := os.Open(image.Path)
 		util.PanicIf(err)
 		io.Copy(dest, src)
 	}
+}
 
-	fmt.Println(dir)
+func (bb BucketBuilder) cleanUp() {
+	os.RemoveAll(bb.dir)
 }

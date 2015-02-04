@@ -31,18 +31,22 @@ func NewBucketBuilder(bucket models.Bucket) BucketBuilder {
 }
 
 func (bb BucketBuilder) Perform() {
-	defer bb.cleanUp()
+	// defer bb.cleanUp()
 
 	bb.writeIndex()
 	bb.copyImages()
 	bb.buildAssets()
 }
 
+func (bb BucketBuilder) Images() []models.Image {
+	return bb.bucket.Images()
+}
+
 func (bb BucketBuilder) writeIndex() {
 	index, err := os.Create(path.Join(bb.dir, "/index.html"))
 	util.PanicIf(err)
 	template, err := template.ParseFiles("templates/index.html")
-	template.Execute(index, bb.bucket)
+	template.Execute(index, bb)
 }
 
 func (bb BucketBuilder) copyImages() {

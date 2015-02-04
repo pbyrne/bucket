@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/pbyrne/bucket/models"
 	"github.com/pbyrne/bucket/util"
+	"html/template"
 	"io/ioutil"
 	"os"
 )
@@ -11,9 +12,15 @@ import (
 func Build(bucket models.Bucket) {
 	dir, err := ioutil.TempDir("", "bucket")
 	util.PanicIf(err)
-	index, err := os.Create(dir + "/index.html")
+	indexPath := dir + "/index.html"
+	index, err := os.Create(indexPath)
 	util.PanicIf(err)
 	defer os.RemoveAll(dir)
+	template, err := template.ParseFiles("templates/index.html")
 
-	index.WriteString("<h1>Hello, world!</h1>")
+	template.Execute(index, bucket.Images())
+
+	data, err := ioutil.ReadFile(indexPath)
+	util.PanicIf(err)
+	fmt.Println(string(data))
 }

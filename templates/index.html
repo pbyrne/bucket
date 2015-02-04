@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>bucket</title>
+  </head>
+  <body>
+    <ul class="m-images">
+      <li class="headings">
+        <span class="image-metadata">Name</span>
+        <span class="image-metadata">Date</span>
+        <span class="image-metadata numeric">Size</span>
+      </li>
+      <li>Hello!</li>
+      {{ range $i, $image := . }}
+      <li class="image" data-image-name="{{ $image.BaseName }}">
+        <a href="{{ $image.BaseName }}" class="source image-metadata">{{ $image.BaseName }}</a>
+        <span class="image-metadata.date"></span>
+        <span class="image-metadata.size">{{ $image.Size }}</span>
+      </li>
+      {{ end }}
+    </ul>
+  </body>
+</html>

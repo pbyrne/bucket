@@ -20,6 +20,7 @@ func Build(bucket models.Bucket) {
 
 	template.Execute(index, bucket)
 
+	// debugging
 	data, err := ioutil.ReadFile(indexPath)
 	util.PanicIf(err)
 	fmt.Println(string(data))

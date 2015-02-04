@@ -18,7 +18,7 @@ func Build(bucket models.Bucket) {
 	defer os.RemoveAll(dir)
 	template, err := template.ParseFiles("templates/index.html")
 
-	template.Execute(index, bucket.Images())
+	template.Execute(index, bucket)
 
 	data, err := ioutil.ReadFile(indexPath)
 	util.PanicIf(err)

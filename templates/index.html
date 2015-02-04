@@ -10,8 +10,7 @@
         <span class="image-metadata">Date</span>
         <span class="image-metadata numeric">Size</span>
       </li>
-      <li>Hello!</li>
-      {{ range $i, $image := . }}
+      {{ range $i, $image := .Images }}
       <li class="image" data-image-name="{{ $image.BaseName }}">
         <a href="{{ $image.BaseName }}" class="source image-metadata">{{ $image.BaseName }}</a>
         <span class="image-metadata.date"></span>

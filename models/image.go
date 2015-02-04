@@ -12,27 +12,24 @@ type Image struct {
 }
 
 func (i Image) Size() int64 {
-	file, err := os.Open(i.Path)
-	util.PanicIf(err)
-	stat, err := file.Stat()
-	util.PanicIf(err)
-	return stat.Size()
+	return i.stats().Size()
 }
 
 func (i Image) ModTime() time.Time {
-	file, err := os.Open(i.Path)
-	util.PanicIf(err)
-	stat, err := file.Stat()
-	util.PanicIf(err)
-	return stat.ModTime()
+	return i.stats().ModTime()
 }
 
 func (i Image) BaseName() string {
 	return filepath.Base(i.Path)
 }
 
-// func (i Image) stats() FileInfo {
-// }
+func (i Image) stats() os.FileInfo {
+	file, err := os.Open(i.Path)
+	util.PanicIf(err)
+	stat, err := file.Stat()
+	util.PanicIf(err)
+	return stat
+}
 
 func ImagesFromPaths(ps []string) []Image {
 	var result []Image

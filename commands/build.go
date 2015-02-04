@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"path/filepath"
 )
 
 func Build(bucket models.Bucket) {
@@ -33,7 +34,8 @@ func (bb BucketBuilder) Perform() {
 	defer bb.cleanUp()
 
 	bb.writeIndex()
-	bb.copyFiles()
+	bb.copyImages()
+	bb.buildAssets()
 }
 
 func (bb BucketBuilder) writeIndex() {
@@ -43,11 +45,27 @@ func (bb BucketBuilder) writeIndex() {
 	template.Execute(index, bb.bucket)
 }
 
-func (bb BucketBuilder) copyFiles() {
+func (bb BucketBuilder) copyImages() {
 	for _, image := range bb.bucket.Images() {
 		dest, err := os.Create(path.Join(bb.dir, image.BaseName()))
 		util.PanicIf(err)
 		src, err := os.Open(image.Path)
+		util.PanicIf(err)
+		io.Copy(dest, src)
+	}
+}
+
+func (bb BucketBuilder) buildAssets() {
+	jsDestPath := path.Join(bb.dir, "javascripts")
+	err := os.Mkdir(jsDestPath, 0744)
+	util.PanicIf(err)
+
+	sourcePaths, err := filepath.Glob(filepath.Join("public/javascripts", "*"))
+	util.PanicIf(err)
+	for _, jsFile := range sourcePaths {
+		dest, err := os.Create(path.Join(jsDestPath, filepath.Base(jsFile)))
+		util.PanicIf(err)
+		src, err := os.Open(jsFile)
 		util.PanicIf(err)
 		io.Copy(dest, src)
 	}

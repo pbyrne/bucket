@@ -2,6 +2,67 @@
 <html>
   <head>
     <title>bucket</title>
+    <style>
+      fieldset {
+          border: none;
+          margin: 0px;
+          padding: 0px
+      }
+
+      .m-images {
+          padding-left: 0px;
+          list-style-type: none
+      }
+
+      .m-images .headings {
+          display: none
+      }
+
+      .m-images .image .date, .m-images .image .size {
+          display: none
+      }
+
+      @media (min-width: 500px) {
+          .m-images {
+              display: table;
+              min-width: 200px;
+              max-width: 500px
+          }
+
+          .m-images .headings {
+              font-weight: bold
+          }
+
+          .m-images .headings, .m-images .image {
+              display: table-row
+          }
+
+          .m-images .headings .image-metadata, .m-images .image .image-metadata {
+              display: table-cell;
+              padding-right: 20px
+          }
+
+          .m-images .headings .image-metadata.numeric, .m-images .image .image-metadata.numeric {
+              text-align: right
+          }
+
+          .m-images .headings a.image-metadata, .m-images .image a.image-metadata {
+              display: inline
+          }
+
+          .m-images .headings.is-hidden, .m-images .image.is-hidden {
+              display: none
+          }
+      }
+
+      .isnt-js .m-actions {
+          display: none
+      }
+
+      .is-hidden {
+          display: none
+      }
+    </style>
   </head>
   <body>
     <ul class="m-images">
@@ -18,5 +79,48 @@
       </li>
       {{ end }}
     </ul>
+    <script src="/javascripts/shoestring-1.0.2.js"></script>
+    <script>
+      function Bucketeer(form, images) {
+        this.form = form
+        this.images = images
+        this.bindEventListeners(this)
+      }
+
+      Bucketeer.prototype = {
+        bindEventListeners: function(self) {
+          self.form.find("input[data-action=filter]").bind("input", self.triggerFilter.bind(self))
+        },
+
+        // "asdf" to /a.*s.*d.*f/
+        fuzzyRegExp: function(filterString) {
+          var pieces = []
+          for (var i = 0; i < filterString.length; i++) {
+            pieces.push(filterString[i])
+          }
+          return new RegExp(pieces.join(".*"), "i")
+        },
+
+        triggerFilter: function(event) {
+          var input = event.target || event.srcElement
+          var fuzzyFinder = this.fuzzyRegExp($(input).val())
+          for (var i = 0; i < this.images.length; i++) {
+            var image = $(this.images[i])
+            var imageName = image.attr('data-image-name')
+            if (imageName.match(fuzzyFinder)) {
+              image.removeClass("is-hidden")
+            } else {
+              image.addClass("is-hidden")
+            }
+          }
+        }
+      }
+
+      (function () {
+        "use strict";
+        $("html.isnt-js").removeClass("isnt-js").addClass("is-js")
+        var $bucketeer = new Bucketeer($(".m-actions form"), $(".m-images .image"))
+      })();
+    </script>
   </body>
 </html>

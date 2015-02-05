@@ -1,0 +1,60 @@
+fieldset {
+  border: none;
+  margin: 0px;
+  padding: 0px
+}
+
+.m-images {
+  padding-left: 0px;
+  list-style-type: none
+}
+
+.m-images .headings {
+  display: none
+}
+
+.m-images .image .date, .m-images .image .size {
+  display: none
+}
+
+@media (min-width: 500px) {
+  .m-images {
+    display: table;
+    min-width: 200px;
+    max-width: 500px
+  }
+
+  .m-images .headings {
+    font-weight: bold
+  }
+
+  .m-images .headings, .m-images .image {
+    display: table-row
+  }
+
+  .m-images .headings .image-metadata, .m-images .image .image-metadata {
+    display: table-cell;
+    padding-right: 20px
+  }
+
+  .m-images .headings .image-metadata.numeric, .m-images .image .image-metadata.numeric {
+    text-align: right
+  }
+
+  .m-images .headings a.image-metadata, .m-images .image a.image-metadata {
+    display: inline
+  }
+
+  .m-images .headings.is-hidden, .m-images .image.is-hidden {
+    display: none
+  }
+}
+
+.isnt-js .m-actions {
+  display: none
+}
+
+.is-hidden {
+  display: none
+}
+

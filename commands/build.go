@@ -33,7 +33,7 @@ func NewBucketBuilder(bucket models.Bucket) BucketBuilder {
 }
 
 func (bb BucketBuilder) Perform() {
-	// defer bb.cleanUp()
+	defer bb.cleanUp()
 
 	bb.writeIndex()
 	bb.copyImages()

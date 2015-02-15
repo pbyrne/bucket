@@ -15,13 +15,13 @@ import (
 
 type BucketBuilder struct {
 	bucket Bucket
-	dir    string
+	Dir    string
 }
 
 func NewBucketBuilder(bucket Bucket) BucketBuilder {
 	dir, err := ioutil.TempDir("", "bucket")
 	util.PanicIf(err)
-	return BucketBuilder{bucket: bucket, dir: dir}
+	return BucketBuilder{bucket: bucket, Dir: dir}
 }
 
 func (bb BucketBuilder) Perform() {
@@ -51,7 +51,7 @@ func (bb BucketBuilder) FingerprintedStylesheets() []string {
 }
 
 func (bb BucketBuilder) writeIndex() {
-	index, err := os.Create(path.Join(bb.dir, "/index.html"))
+	index, err := os.Create(path.Join(bb.Dir, "/index.html"))
 	util.PanicIf(err)
 	template, err := template.ParseFiles("templates/index.html")
 	util.PanicIf(err)
@@ -60,12 +60,12 @@ func (bb BucketBuilder) writeIndex() {
 
 func (bb BucketBuilder) copyImages() {
 	for _, image := range bb.bucket.Images() {
-		bb.copyFile(path.Join(bb.dir, image.BaseName()), image.Path)
+		bb.copyFile(path.Join(bb.Dir, image.BaseName()), image.Path)
 	}
 }
 
 func (bb BucketBuilder) buildAssets() {
-	jsDestPath := path.Join(bb.dir, "javascripts")
+	jsDestPath := path.Join(bb.Dir, "javascripts")
 	err := os.Mkdir(jsDestPath, 0744)
 	util.PanicIf(err)
 	for _, jsSrc := range bb.javaScriptPaths() {
@@ -73,7 +73,7 @@ func (bb BucketBuilder) buildAssets() {
 		bb.copyFile(dest, jsSrc)
 	}
 
-	cssDestPath := path.Join(bb.dir, "stylesheets")
+	cssDestPath := path.Join(bb.Dir, "stylesheets")
 	err = os.Mkdir(cssDestPath, 0744)
 	util.PanicIf(err)
 	for _, cssSrc := range bb.stylesheetPaths() {
@@ -91,7 +91,7 @@ func (bb BucketBuilder) copyFile(destPath string, srcPath string) {
 }
 
 func (bb BucketBuilder) CleanUp() {
-	os.RemoveAll(bb.dir)
+	os.RemoveAll(bb.Dir)
 }
 
 func (bb BucketBuilder) javaScriptPaths() []string {

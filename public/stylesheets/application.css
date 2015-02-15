@@ -4,6 +4,10 @@ fieldset {
   padding: 0px
 }
 
+label {
+  display: none;
+}
+
 .m-images {
   padding-left: 0px;
   list-style-type: none

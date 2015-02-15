@@ -91,6 +91,7 @@ func (bb BucketBuilder) copyFile(destPath string, srcPath string) {
 }
 
 func (bb BucketBuilder) CleanUp() {
+	fmt.Println("Performing cleanup…")
 	os.RemoveAll(bb.Dir)
 }
 

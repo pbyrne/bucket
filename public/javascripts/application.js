@@ -31,7 +31,7 @@ Bucketeer.prototype = {
       }
     }
   }
-}
+};
 
 (function () {
   "use strict";

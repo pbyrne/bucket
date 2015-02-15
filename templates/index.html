@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html class="isnt-js">
+
   <head>
     <title>bucket</title>
     {{ range $i, $csspath := .FingerprintedStylesheets }}
       <link href="stylesheets/{{ $csspath }}" rel="stylesheet">
     {{ end }}
   </head>
+
   <body>
-    div.m-actions
-    form
-    fieldset
-    label for="filter"
-    input#filter placeholder="Filter images" data-action="filter"
 
     <div class="m-actions">
       <form>
@@ -36,8 +33,11 @@
       </li>
       {{ end }}
     </ul>
+
     {{ range $i, $jspath := .FingerprintedJavaScripts }}
       <script src="javascripts/{{ $jspath }}"></script>
     {{ end }}
+
   </body>
+
 </html>

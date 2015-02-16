@@ -13,7 +13,7 @@ func Release(bucket models.Bucket) {
 
 	builder.Perform()
 	fmt.Println("Built to", builder.Dir)
-	rsyncBucket(builder.Dir, "bucket.patrickbyrne.net:/var/www/bucketbeta.patrickbyrne.net/public")
+	rsyncBucket(builder.Dir, "bucket.patrickbyrne.net:/var/www/bucket.patrickbyrne.net/public")
 }
 
 func rsyncBucket(src, dest string) {

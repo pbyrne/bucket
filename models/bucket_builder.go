@@ -21,6 +21,8 @@ type BucketBuilder struct {
 func NewBucketBuilder(bucket Bucket) BucketBuilder {
 	dir, err := ioutil.TempDir("", "bucket")
 	util.PanicIf(err)
+	err = os.Chmod(dir, 0755)
+	util.PanicIf(err)
 	return BucketBuilder{bucket: bucket, Dir: dir}
 }
 
@@ -66,7 +68,7 @@ func (bb BucketBuilder) copyImages() {
 
 func (bb BucketBuilder) buildAssets() {
 	jsDestPath := path.Join(bb.Dir, "javascripts")
-	err := os.Mkdir(jsDestPath, 0744)
+	err := os.Mkdir(jsDestPath, 0755)
 	util.PanicIf(err)
 	for _, jsSrc := range bb.javaScriptPaths() {
 		dest := path.Join(jsDestPath, bb.fingerprintedBaseName(jsSrc))
@@ -74,7 +76,7 @@ func (bb BucketBuilder) buildAssets() {
 	}
 
 	cssDestPath := path.Join(bb.Dir, "stylesheets")
-	err = os.Mkdir(cssDestPath, 0744)
+	err = os.Mkdir(cssDestPath, 0755)
 	util.PanicIf(err)
 	for _, cssSrc := range bb.stylesheetPaths() {
 		dest := path.Join(cssDestPath, bb.fingerprintedBaseName(cssSrc))

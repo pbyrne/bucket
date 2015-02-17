@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/pbyrne/bucket/util"
+	"net/url"
 	"os"
 	"path/filepath"
 	"time"
@@ -21,6 +22,10 @@ func (i Image) ModTime() time.Time {
 
 func (i Image) BaseName() string {
 	return filepath.Base(i.Path)
+}
+
+func (i Image) UrlPath() string {
+	return url.QueryEscape(i.BaseName())
 }
 
 func (i Image) stats() os.FileInfo {

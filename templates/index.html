@@ -27,7 +27,7 @@
       </li>
       {{ range $i, $image := .Images }}
       <li class="image" data-image-name="{{ $image.BaseName }}">
-        <a href="{{ $image.BaseName }}" class="source image-metadata">{{ $image.BaseName }}</a>
+        <a href="{{ $image.UrlPath }}" class="source image-metadata">{{ $image.BaseName }}</a>
         <span class="image-metadata date">{{ $image.ModTime.Format "02-Jan-2006" }}</span>
         <span class="image-metadata size">{{ $image.Size }}</span>
       </li>

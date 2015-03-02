@@ -18,7 +18,7 @@ func Release(bucket models.Bucket) {
 
 func rsyncBucket(src, dest string) {
 	srcWithSlash := fmt.Sprintf("%s/", src)
-	cmd := exec.Command("rsync", "-avz", "--delete", srcWithSlash, dest)
+	cmd := exec.Command("rsync", "-avz", "--delete", "--times", srcWithSlash, dest)
 	cmd.Stdout = os.Stdout
 	cmd.Run()
 }

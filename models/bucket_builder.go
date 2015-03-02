@@ -85,11 +85,15 @@ func (bb BucketBuilder) buildAssets() {
 }
 
 func (bb BucketBuilder) copyFile(destPath string, srcPath string) {
-	dest, err := os.Create(destPath)
-	util.PanicIf(err)
 	src, err := os.Open(srcPath)
 	util.PanicIf(err)
+	stats, err := os.Stat(srcPath)
+	util.PanicIf(err)
+	dest, err := os.Create(destPath)
+	util.PanicIf(err)
+
 	io.Copy(dest, src)
+	err = os.Chtimes(destPath, stats.ModTime(), stats.ModTime())
 }
 
 func (bb BucketBuilder) CleanUp() {
